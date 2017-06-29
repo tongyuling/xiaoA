@@ -12,11 +12,14 @@
 #import "GetNumberPlistModel.h"
 #import "NSString+xiaoA.h"
 #import "ShowSelectView.h"
+#import "showPlayImageView.h"
 
 @interface ShowSelectController ()
 
 @property (nonatomic, strong) ShowSelectView *showSelectView;
-
+@property (nonatomic, strong) UIImage *image1;
+@property (nonatomic, strong) UIImage *image2;
+@property (nonatomic, strong) UIImage *image3;
 
 @end
 
@@ -68,14 +71,22 @@
     
     self.showSelectView = [[ShowSelectView alloc]init];
     self.showSelectView.frame = CGRectMake(0, 0, KviewWidth, KviewHeight);
+    //手势
+    UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap1)];
+    [self.showSelectView.imageView1 addGestureRecognizer:tap1];
+    UITapGestureRecognizer * tap2 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap2)];
+    [self.showSelectView.imageView2 addGestureRecognizer:tap2];
+    UITapGestureRecognizer * tap3 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap3)];
+    [self.showSelectView.imageView3 addGestureRecognizer:tap3];
+    
     self.showSelectView.labelMessage.text = [unarchiver decodeObjectForKey:@"dataMessage"];
     [self.view addSubview:self.showSelectView];
     
     if ([[unarchiver decodeObjectForKey:@"dataImage2"]isEmptyString]) {
-        UIImage * image = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage1"]];
-        self.showSelectView.imageView1.image = image;
+        self.image1 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage1"]];
+        self.showSelectView.imageView1.image = self.image1;
         
-        if (CGImageGetHeight(image.CGImage) >= KviewHeight) {
+        if (CGImageGetHeight(self.image1.CGImage) >= KviewHeight) {
             self.showSelectView.imageView1.frame = CGRectMake(15, 84, KviewWidth/2 -20, KviewWidth/2 + 20);
         }else{
             self.showSelectView.imageView1.frame = CGRectMake(15, 114, KviewWidth/2 -20, KviewWidth/2 -40);
@@ -85,18 +96,18 @@
     }
     else if ([[unarchiver decodeObjectForKey:@"dataImage3"]isEmptyString]){
         
-        UIImage * image1 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage1"]];
-        self.showSelectView.imageView1.image = image1;
-        UIImage * image2 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage2"]];
-        self.showSelectView.imageView2.image = image2;
+        self.image1 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage1"]];
+        self.showSelectView.imageView1.image = self.image1;
+        self.image2 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage2"]];
+        self.showSelectView.imageView2.image = self.image2;
 
-        if (CGImageGetHeight(image1.CGImage) >= KviewHeight) {
+        if (CGImageGetHeight(self.image1.CGImage) >= KviewHeight) {
             self.showSelectView.imageView1.frame = CGRectMake(15, 84, KviewWidth/2 -20, KviewWidth/2 + 20);
         }else{
             self.showSelectView.imageView1.frame = CGRectMake(15, 114, KviewWidth/2 -20, KviewWidth/2 -40);
         }
         
-        if (CGImageGetHeight(image2.CGImage) >= KviewHeight) {
+        if (CGImageGetHeight(self.image2.CGImage) >= KviewHeight) {
             self.showSelectView.imageView2.frame = CGRectMake(CGRectGetMaxX(self.showSelectView.imageView1.frame)+5, 84, KviewWidth/2 -20, KviewWidth/2 + 20);
         }else{
             self.showSelectView.imageView2.frame = CGRectMake(CGRectGetMaxX(self.showSelectView.imageView1.frame)+5, 114, KviewWidth/2 -20, KviewWidth/2 -40);
@@ -105,26 +116,26 @@
         self.showSelectView.labelMessage.frame = CGRectMake(self.showSelectView.imageView1.frame.origin.x, CGRectGetMaxY(self.showSelectView.imageView1.frame), KviewWidth - 30, 80);
     }
     else{
-        UIImage * image1 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage1"]];
-        self.showSelectView.imageView1.image = image1;
-        UIImage * image2 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage2"]];
-        self.showSelectView.imageView2.image = image2;
-        UIImage * image3 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage3"]];
-        self.showSelectView.imageView3.image = image3;
+        self.image1 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage1"]];
+        self.showSelectView.imageView1.image = self.image1;
+        self.image2 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage2"]];
+        self.showSelectView.imageView2.image = self.image2;
+        self.image3 = [self Base64StrToUIImage:[unarchiver decodeObjectForKey:@"dataImage3"]];
+        self.showSelectView.imageView3.image = self.image3;
         
-        if (CGImageGetHeight(image1.CGImage) >= KviewHeight) {
+        if (CGImageGetHeight(self.image1.CGImage) >= KviewHeight) {
             self.showSelectView.imageView1.frame = CGRectMake(15, 84, KviewWidth/2 -20, KviewWidth/2 + 20);
         }else{
             self.showSelectView.imageView1.frame = CGRectMake(15, 114, KviewWidth/2 -20, KviewWidth/2 -40);
         }
         
-        if (CGImageGetHeight(image2.CGImage) >= KviewHeight) {
+        if (CGImageGetHeight(self.image2.CGImage) >= KviewHeight) {
             self.showSelectView.imageView2.frame = CGRectMake(CGRectGetMaxX(self.showSelectView.imageView1.frame)+5, 84, KviewWidth/2 -20, KviewWidth/2 + 20);
         }else{
             self.showSelectView.imageView2.frame = CGRectMake(CGRectGetMaxX(self.showSelectView.imageView1.frame)+5, 114, KviewWidth/2 -20, KviewWidth/2 -40);
         }
         
-        if (CGImageGetHeight(image3.CGImage) >= KviewHeight) {
+        if (CGImageGetHeight(self.image3.CGImage) >= KviewHeight) {
             self.showSelectView.imageView3.frame = CGRectMake(15, CGRectGetMaxY(self.showSelectView.imageView1.frame)+10, KviewWidth/2 -20, KviewWidth/2 + 20);
         }else{
             self.showSelectView.imageView3.frame = CGRectMake(15, CGRectGetMaxY(self.showSelectView.imageView1.frame)+10, KviewWidth/2 -20, KviewWidth/2 -40);
@@ -134,6 +145,58 @@
     }
     //关闭解档
     [unarchiver finishDecoding];
+}
+
+-(void)tap1
+{
+    CGFloat fixelW;
+    CGFloat fixelH;
+    
+    if (CGImageGetWidth(self.image1.CGImage) >= KviewWidth) {
+        fixelW = KviewWidth;
+    }else{fixelW = CGImageGetWidth(self.image1.CGImage);}
+    
+    if (CGImageGetHeight(self.image1.CGImage) >= KviewHeight) {
+        fixelH = KviewHeight;
+    }else{fixelH = CGImageGetHeight(self.image1.CGImage);}
+    
+    showPlayImageView * show = [[showPlayImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) imageFrame:CGRectMake(0, 0, fixelW, fixelH)];
+    show.iconView.image = self.image1;
+    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:show];
+}
+-(void)tap2
+{
+    CGFloat fixelW;
+    CGFloat fixelH;
+    
+    if (CGImageGetWidth(self.image2.CGImage) >= KviewWidth) {
+        fixelW = KviewWidth;
+    }else{fixelW = CGImageGetWidth(self.image2.CGImage);}
+    
+    if (CGImageGetHeight(self.image2.CGImage) >= KviewHeight) {
+        fixelH = KviewHeight;
+    }else{fixelH = CGImageGetHeight(self.image2.CGImage);}
+    
+    showPlayImageView * show = [[showPlayImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) imageFrame:CGRectMake(0, 0, fixelW, fixelH)];
+    show.iconView.image = self.image2;
+    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:show];
+}
+-(void)tap3
+{
+    CGFloat fixelW;
+    CGFloat fixelH;
+    
+    if (CGImageGetWidth(self.image3.CGImage) >= KviewWidth) {
+        fixelW = KviewWidth;
+    }else{fixelW = CGImageGetWidth(self.image3.CGImage);}
+    
+    if (CGImageGetHeight(self.image3.CGImage) >= KviewHeight) {
+        fixelH = KviewHeight;
+    }else{fixelH = CGImageGetHeight(self.image3.CGImage);}
+    
+    showPlayImageView * show = [[showPlayImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) imageFrame:CGRectMake(0, 0, fixelW, fixelH)];
+    show.iconView.image = self.image3;
+    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:show];
 }
 
 //得到Document目录

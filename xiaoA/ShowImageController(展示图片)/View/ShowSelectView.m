@@ -27,14 +27,17 @@
     
     self.imageView1 = [[UIImageView alloc]init];
     self.imageView1.frame = CGRectMake(15, 84, KviewWidth/2 -20, KviewWidth/2 + 20);
+    self.imageView1.userInteractionEnabled = YES;
     [self addSubview:self.imageView1];
     
     self.imageView2 = [[UIImageView alloc]init];
     self.imageView2.frame = CGRectMake(CGRectGetMaxX(self.imageView1.frame)+5, self.imageView1.frame.origin.y, self.imageView1.frame.size.width, self.imageView1.frame.size.height);
+    self.imageView2.userInteractionEnabled = YES;
     [self addSubview:self.imageView2];
     
     self.imageView3 = [[UIImageView alloc]init];
     self.imageView3.frame = CGRectMake(self.imageView1.frame.origin.x, CGRectGetMaxY(self.imageView1.frame)+10, self.imageView1.frame.size.width, self.imageView1.frame.size.height);
+    self.imageView3.userInteractionEnabled = YES;
     [self addSubview:self.imageView3];
     
     self.labelMessage = [[UILabel alloc]init];
